@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy
 from os.path import join as joinPath
 
 def getPath() -> str:
@@ -9,5 +10,6 @@ def getPath() -> str:
 
 valorantPlayerDataset = pd.read_csv(joinPath(getPath(),'valorant_player.csv'))
 
-print(valorantPlayerDataset)
+weatherDataset = pd.read_csv(joinPath(getPath(),'weather_data.csv'))
+# print(valorantPlayerDataset)
 
