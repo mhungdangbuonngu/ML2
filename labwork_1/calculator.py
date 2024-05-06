@@ -1,5 +1,5 @@
 import pandas as pd
-import numpy
+import numpy as np
 from os.path import join as joinPath
 
 def getPath() -> str:
@@ -8,8 +8,8 @@ def getPath() -> str:
     """
     return __file__[:-len(__file__.split('\\')[-1])]
 
-valorantPlayerDataset = pd.read_csv(joinPath(getPath(),'valorant_player.csv'))
+# valorantPlayerDataset = pd.read_csv(joinPath(getPath(),'valorant_player.csv'))
 
 weatherDataset = pd.read_csv(joinPath(getPath(),'weather_data.csv'))
-# print(valorantPlayerDataset)
 
+print(weatherDataset)
