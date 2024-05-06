@@ -44,6 +44,9 @@ B2 = {
 }
 
 def GPA(year:dict) -> float:
+    """
+    This function takes known marks to calculate GPA with respect to their credits
+    """
     creditTotal:int = 0
     sum:float = 0
     for key in year.keys():
