@@ -1,47 +1,11 @@
-B1 = {
-    'eng1.012':[3,15.9],
-    'eng1.013':[3,16],
-    'eng1.014':[2,14.3],
-    'bio1.001':[4,13.5],
-    'che1.001':[4,13.1],
-    'mat1.001':[4,14.9],
-    'ict1.001':[3,16.6],
-    'ict1.001':[3,16.6],	
-	'mat1.002':[4,16.6],	
-	'phy1.001':[4,16.2],
-    'BIO1.002': [3,16.3],	
-    'CHE1.002': [4,13.6],	
-    'ICT1.002': [4,17.7],	
-    'ICT1.003': [3,19.4],	
-    'ICT1.004': [3,17.4],	
-    'MAT1.003': [3,14.5],	
-    'MAT1.004': [3,15.8],	
-    'PHY1.002':	[4,12.4],	
-    'MS1.001': [2,14.7]
-}
-B2 = {
-    'MAT2.001':[3,16.8],
-	'FR2.001':[4],	 	 					
-	# 'PHI2.001':[2,11.5]	
-	'MS2.005':[2],				
-	'DS2.004':[3,11.9],
-	'ICT2.001':[3,18.5],
-	'ICT2.003':[4,16.8],
-    'ICT2.004':[3,10.4],
-	'ICT2.005':[3,15.5],
-	'ICT3.002':[3],
-    'FR2.002':[4],	 	 					
-	# 'MS2.006':[2],					
-	'ICT2.013':[4],	 	 					
-	'MAT2.004':[3],	 	 					
-    'DS2.005':[3], 	 					
-	'ICT2.009':[3],	 	 					
-	'DS2.001':[3,14.2],
-    'ICT3.011':[3], 					
-	'ICT2.010':[3],	 	 					
-    'DS2.002':[3], 	 					
-	'DS2.003':[3]	 	 					 	 					
-}
+import json
+from os.path import join
+
+def getPath() -> str:
+    """
+    Return the path to the folder contains this file
+    """
+    return __file__[:-len(__file__.split('\\')[-1])]
 
 def GPA(year:dict) -> float:
     """
@@ -57,4 +21,35 @@ def GPA(year:dict) -> float:
         creditTotal += marks[0]
     return sum/creditTotal
 
-print(GPA(B2))
+def updateMark(subject:str, mark:float, year:dict, mode:str='add') -> dict:
+    """
+    Add or modify the saved result of a subject
+    """
+    if mode == 'add':
+        try:
+            year.get(subject).append(mark)
+        except TypeError:
+            print(f"There is no {subject}")
+    elif mode == 'modify':
+        try:
+            year.get(subject)[1] = mark
+        except TypeError:
+            print(f"There is no {subject}")
+    else:
+        raise ValueError(f"Possible mode is 'add' or 'modify', got '{mode}'")
+    return year
+
+def saveToJson(fileName:str, year:dict) -> None:
+    with open(join(getPath(),fileName),'w') as jf:
+        json.dump(year,jf) 
+
+def loadFromJson(path:str) -> dict:
+    B1:dict
+    with open(path,'r') as jf:
+        B1 = json.load(jf)
+    return B1
+
+if __name__ == "__main__":
+    B2 = loadFromJson(join(getPath(),'B2.json'))
+    print(GPA(B2))
+    saveToJson('B2.json',B2)
