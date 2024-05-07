@@ -49,7 +49,34 @@ def loadFromJson(path:str) -> dict:
         B1 = json.load(jf)
     return B1
 
+def isValidMark(mark:float) -> bool:
+    try:
+        mark = float(mark)
+    except:
+        return False
+    if mark <= 20 and mark > 0:
+        return True
+    return False
+
+def createDataSet(year:int) -> dict:
+    """
+    Create a new dict contains new marks for new person\n
+    Input mark number for each subjects, none if there is no mark
+    """
+    if not year < 3 and year > 0:
+        raise ValueError(f'Only accept year 1 2 3, got {year}')
+    
+    markDict = loadFromJson(join(getPath(),f'tempB{year}.json'))
+    for key in markDict.keys():
+        mark = input(f'{key}: ')
+        if mark == 'none':
+            continue
+        while not isValidMark(mark):
+            mark = input(f'reinput {key}, invalid value: ')
+        markDict.get(key).append(float(mark))
+    return markDict
+
 if __name__ == "__main__":
-    B2 = loadFromJson(join(getPath(),'B2.json'))
-    print(GPA(B2))
-    saveToJson('B2.json',B2)
+    marks = createDataSet(2)
+    print(GPA(marks))
+    saveToJson('B2.json',marks)
