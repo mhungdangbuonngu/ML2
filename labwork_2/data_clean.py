@@ -6,12 +6,12 @@ def getPath() -> str:
     """
     return __file__[:-len(__file__.split('\\')[-1])]
 
-with open(join(getPath(),'machine.csv'),'r') as inputFile:
+with open(join(getPath(),'energy_datacsv.csv'),'r') as inputFile:
     lines = inputFile.readlines()
     for line in lines:
-        line = line[:-10]
+        line = line[:-3]
         line = line.replace(',','.')
         line = line.replace(';',',')
-        with open(join(getPath(),'machine_data.csv'),'a') as outputFile:
+        with open(join(getPath(),'energy_data.csv'),'a') as outputFile:
             outputFile.write(line + "\n")
         print(line)
